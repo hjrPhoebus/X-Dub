@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="X-Dub: From Inpainting to Editing: A Self-Bootstrapping Framework for Context-Rich Visual Dubbing.">
+    <meta name="keywords" content="visual dubbing, lip sync, diffusion transformer, video editing, generative ai">
+    
+    <title>X-Dub: From Inpainting to Editing: A Self-Bootstrapping Framework for Context-Rich Visual Dubbing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #404a77 0%, #6a476d 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 70px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            font-size: 5.2rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, rgb(18, 194, 233) 0%, rgb(196, 113, 237) 50%, rgb(246, 79, 89) 110%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        .subtitle {
+            font-size: 1.6rem; 
+            font-weight: 600;
+            color: #444;
+            line-height: 1.4;
+            margin-bottom: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Authors & Affiliations */
+        .authors { font-size: 1.15rem; font-weight: 500; color: #444; margin-bottom: 15px; line-height: 1.8; }
+        .affiliations { font-size: 1rem; color: #666; margin-bottom: 35px; line-height: 1.6; }
+        .symbol { font-size: 0.85em; vertical-align: super; margin-left: 1px; }
+        .notes { font-size: 0.9rem; color: #888; margin-top: 10px; }
+
+        .links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #495586 0%, #684d84 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .link-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
+
+        /* Main Content */
+        .main-content { background: white; margin: 40px auto; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .section { padding: 60px 40px; border-bottom: 1px solid #eee; }
+        .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 30px; text-align: center; color: #222; }
+        .section-title-small { font-size: 2.0rem; font-weight: 600; margin-bottom: 20px; text-align: center; }
+
+        .main-video video { width: 100%; max-width: 1000px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); }
+        
+        /* Features Grid - 原内容还原 */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .feature-card { background: #f8f9fa; padding: 30px; border-radius: 15px; text-align: center; transition: transform 0.3s ease; border: 1px solid #eee; }
+        .feature-card:hover { transform: translateY(-5px); background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 20px; color: #6a476d; }
+        .feature-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: #333; }
+        .feature-description { color: #666; line-height: 1.6; text-align: left; font-size: 0.95rem; }
+
+        .method-image { width: 100%; margin: 20px 0; }
+        .method-text { max-width: 1000px; margin: 0 auto; color: #555; text-align: left; }
+        .narrow-left { max-width: 900px; margin: 0 auto; color: #666; text-align: center; }
+
+        @media (max-width: 768px) { .title { font-size: 3rem; } .section { padding: 40px 20px; } .features-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="container">
+            <h1 class="title">X-Dub</h1>
+            <p class="subtitle">From Inpainting to Editing:<br>
+            A Self-Bootstrapping Framework for Context-Rich Visual Dubbing</p>
+            
+            <div class="authors">
+                Xu He<span class="symbol">1,*</span>, 
+                Haoxian Zhang<span class="symbol">2,†</span>, 
+                Hejia Chen<span class="symbol">3</span>, 
+                Changyuan Zheng<span class="symbol">1</span>, 
+                Liyang Chen<span class="symbol">1</span>,<br>
+                Songlin Tang<span class="symbol">2</span>, 
+                Jiehui Huang<span class="symbol">4</span>, 
+                Xiaoqiang Liu<span class="symbol">2</span>, 
+                Pengfei Wan<span class="symbol">2</span>, 
+                Zhiyong Wu<span class="symbol">1,5,✉</span>
+            </div>
+            
+            <div class="affiliations">
+                <span class="symbol">1</span>Tsinghua University &nbsp;&nbsp;
+                <span class="symbol">2</span>Kling Team, Kuaishou Technology &nbsp;&nbsp;
+                <span class="symbol">3</span>Beihang University <br>
+                <span class="symbol">4</span>Hong Kong University of Science and Technology &nbsp;&nbsp;
+                <span class="symbol">5</span>The Chinese University of Hong Kong
+                <div class="notes">
+                    *Work done at Kling Team, Kuaishou Technology &nbsp;&nbsp; †Project Leader &nbsp;&nbsp; ✉Corresponding Author
+                </div>
+            </div>
+            
+            <div class="links">
+                <a href="#" class="link-btn"><i class="fas fa-file-pdf"></i> arXiv</a>
+                <a href="#" class="link-btn"><i class="fab fa-github"></i> Code (Coming soon!)</a>
+            </div>
+
+            <!-- 新增开源准备提示 -->
+            <div style="margin-top: 25px; font-size: 0.95rem; color: #667eea; background: rgba(102, 126, 234, 0.08); display: inline-block; padding: 12px 25px; border-radius: 12px; border: 1px dashed #667eea; max-width: 800px;">
+                <i class="fas fa-tools" style="margin-right: 8px;"></i>
+                We are working hard to prepare the source code for release. Thank you for your patience! <br>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            
+            <!-- Demo Video -->
+            <div class="section">
+                <h2 class="section-title">Demo Video</h2>
+                <div class="main-video" style="text-align: center;">
+                    <video controls preload="auto" playsinline>
+                        <source src="./video/demo_video.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- HDTF Results -->
+            <div class="section">
+                <h2 class="section-title-small">Qualitative Results on HDTF</h2>
+                <div class="main-video" style="text-align: center; margin-bottom: 30px;">
+                    <video controls preload="metadata"><source src="./video/hdtf_1.mp4" type="video/mp4"></video>
+                </div>
+                <div class="main-video" style="text-align: center;">
+                    <video controls preload="metadata"><source src="./video/hdtf_21.mp4" type="video/mp4"></video>
+                </div>
+                <div class="main-video" style="text-align: center;">
+                    <video controls preload="metadata"><source src="./video/hdtf_34.mp4" type="video/mp4"></video>
+                </div>
+                <!-- <div class="main-video" style="text-align: center;">
+                    <video controls preload="metadata"><source src="./video/hdtf_39.mp4" type="video/mp4"></video>
+                </div> -->
+            </div>
+
+            <!-- ==================== NEW SECTION: Long Video  ==================== -->
+            <div class="section">
+                <h2 class="section-title-small">Long Video Generation
+                </h2>
+                
+                <!-- 翻译后的解释文本 -->
+                <p class="narrow-left" style="text-align: center; max-width: 800px; margin: 0 auto 30px auto; color: #555;">
+                    Our editor demonstrates the capability to generate extended lip-sync videos (exceeding 1 min) while maintaining consistency, with no observable color or identity drift between the initial and final frames.
+                </p>
+
+                <!-- 横屏视频容器 -->
+                <div class="main-video">
+                    <!-- width: 80% 设置宽度占比 -->
+                    <!-- height: auto 保持宽高比 -->
+                    <!-- display: block; margin: 0 auto; 用于让视频在容器内水平居中 -->
+                    <video controls preload="metadata" 
+                        style="width: 60%; max-width: 1200px; height: auto; display: block; margin: 0 auto; border-radius: 15px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);">
+                        <source src="./video/long_video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Method Overview -->
+            <div class="section">
+                <h2 class="section-title">Method Overview</h2>
+                <img src="./image/overview.png" alt="Method Overview" class="method-image">
+                <div class="method-text">
+                    Overview of <strong>X-Dub</strong>, our self-bootstrapping dubbing framework. Our framework employs a DiT <em>generator</em> to create lip-altered counterparts, forming context-rich pairs. A DiT <em>editor</em> then learns mask-free dubbing from these pairs, leveraging the complete visual context to ensure accurate lip synchronization and identity preservation.
+                </div>
+            </div>
+
+            <!-- Key Features - 恢复原始内容 -->
+            <div class="section">
+                <h2 class="section-title">Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
+                        <h3 class="feature-title">Self-Bootstrapping, Context-Rich Dubbing</h3>
+                        <p class="feature-description">Learns from self-generated pairs and edits videos directly without explicit masks or reference frames, leveraging full-frame temporal context to cast dubbing as a complete editing task rather than partial inpainting.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-wave-square"></i></div>
+                        <h3 class="feature-title">Accurate, Natural Lip-Sync</h3>
+                        <p class="feature-description">Produces speech-aligned lip movements while avoiding leakage and off-target edits, delivering accurate, artifact-free synchronization that reads naturally on frame and in motion.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
+                        <h3 class="feature-title">Consistent Identity, Unlimited Duration</h3>
+                        <p class="feature-description">Preserves face identity and head pose across extended sequences by exploiting rich video context, maintaining temporal consistency without drift or identity collapse even in unlimited-duration dubbing.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-magic"></i></div>
+                        <h3 class="feature-title">Robust to Occlusions, Lighting, and Styles</h3>
+                        <p class="feature-description">Handles occlusions and challenging lighting, and generalizes to stylized, non-human, and AI-generated characters, extending beyond traditional face-dependent methods.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acknowledgments -->
+            <div class="section">
+                <h2 class="section-title">Acknowledgments</h2>
+                <p class="narrow-left" style="text-align: left;">
+                    We gratefully acknowledge the open resources provided by 
+                <a href="https://civitai.com" style="color: #444; text-decoration: none; font-weight: 500;">Civitai</a>, 
+                <a href="https://mixkit.co/" style="color: #444; text-decoration: none; font-weight: 500;">Mixkit</a>, and 
+                <a href="https://www.pexels.com/" style="color: #444; text-decoration: none; font-weight: 500;">Pexels</a>.  
+                The demonstration videos include both real-world and generative materials sourced from these platforms, 
+                which help illustrate the generality and robustness of our dubbing system.  
+                All materials are used for research and demonstration purposes only.
+                </p>
+            </div>
+
+            <!-- Ethical Considerations & Contact -->
+            <div class="section" style="border-bottom: none;">
+                <h2 class="section-title">Ethical Considerations</h2>
+                <p class="narrow-left">
+                    All video and audio materials presented on this page are used solely for academic research to illustrate the technical scope of visual dubbing. No identity, likeness, or content ownership beyond research illustration is implied.
+                </p>
+                <p class="narrow-left" style="margin-top: 10px; font-weight: 600; color: #444;">
+                    If you have any questions, please contact: <a href="mailto:hexu18@mails.tsinghua.edu.cn" style="color: #6a476d;">hexu18@mails.tsinghua.edu.cn</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
