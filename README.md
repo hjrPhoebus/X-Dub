@@ -22,7 +22,7 @@
 - [2025.12.31] Release Arxiv paper.
 
 ## ⚙️ Code Release Status
-We are working hard to prepare the source code for release, expected before January 31, 2026. Thank you for your patience!
+We are working hard to prepare the source code for release. Thank you for your patience!
 
 
 ## Citation
