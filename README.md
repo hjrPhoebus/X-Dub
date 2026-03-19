@@ -1,3 +1,5 @@
+> 🚀 **Code Release:** Now you can visit the new [**X-Dub code repository**](https://github.com/KlingAIResearch/X-Dub), download the [pretrained weights](https://huggingface.co/KlingTeam/X-Dub), and try **X-Dub**! If you find our work helpful, please consider giving the code repo a [⭐ star](https://github.com/KlingAIResearch/X-Dub).
+
 # From Inpainting to Editing: A Self-Bootstrapping Framework for Context-Rich Visual Dubbing
 
 **[Xu He<sup>1,*</sup>](), 
@@ -17,12 +19,14 @@
 
 <a href='https://arxiv.org/abs/2512.25066'><img src='https://img.shields.io/badge/ArXiv-2512.25066-red'></a> 
 <a href='https://hjrphoebus.github.io/X-Dub/'><img src='https://img.shields.io/badge/Project-Page-Green'></a>
+<a href='https://github.com/KlingAIResearch/X-Dub'><img src='https://img.shields.io/badge/GitHub-Code-black?logo=github'></a>
 
 ## 📋 News
+- [2026.03.19] 🔥 Release inference code and pretrained weights: [code](https://github.com/KlingAIResearch/X-Dub) | [weights](https://huggingface.co/KlingTeam/X-Dub).
 - [2025.12.31] Release Arxiv paper.
 
 ## ⚙️ Code Release Status
-We are working hard to prepare the source code for release. Thank you for your patience!
+🔥 The public X-Dub release is now available: [GitHub repository](https://github.com/KlingAIResearch/X-Dub).
 
 
 ## Citation
